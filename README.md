@@ -29,7 +29,7 @@ gate can represent what previously required millions of binary gates.
 ### Mission Statement
 
 This proof-of-concept originally created by [zak.eth](https://github.com/zscole) as part of
-[Crypto Daily POC](https://github.com/zscole/crypto-daily-poc) aims to demonstrate three main points
+[Crypto POC Daily](https://github.com/zscole/crypto-poc-daily) aims to demonstrate three main points
 
 1. **Binary 💥 Arithmetic Circuits**: Side-by-side comparison showing gate count difference
 2. **Homomorphic EC-MAC**: Implementation of a MAC scheme where operations on MACs correspond
