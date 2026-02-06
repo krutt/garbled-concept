@@ -1,0 +1,28 @@
+### byte-compiled ###
+__pycache__/
+*.py[cod]
+*$py.class
+
+### c-extensions ###
+*.so
+
+### distribution ###
+build/
+dist/
+
+### environment ###
+.env
+.venv
+env
+venv
+
+### osx indexer ###
+**/.DS_Store
+
+### ruff ###
+.ruff_cache
+
+### workspace ###
+.idea
+.ignore
+.vscode

@@ -1,0 +1,49 @@
+[build-system]
+build-backend = 'uv_build'
+requires = [ 'uv_build >=0.9.30,<0.10.0']
+
+
+[project]
+authors = [
+  { email = 'aekasitt.g@siamintech.co.th', name='Sitt Guruvanich' },
+]
+dependencies = [
+  'cryptography >=42.0.0',
+  'ecdsa >=0.18.0',
+  'pycryptodome >=3.20.0',
+  'pydantic >=2.12.5',
+  'pydantic-settings >=2.12.0',
+]
+description = 'Proof of Concept using Argo-style Garbled Circuit'
+name = 'garbled-concept'
+readme = 'README.md'
+requires-python = '>=3.10'
+version = '0.1.0'
+
+
+[project.scripts]
+benchmark = 'garbled_concept.benchmark:main'
+demonstrate = 'garbled_concept.demonstrate:main'
+
+
+[tool.ruff]
+indent-width = 2
+line-length = 100
+target-version = 'py313'
+
+
+[tool.ruff.lint.per-file-ignores]
+'__init__.py' = [
+  'F401',  # Ignore unused imports
+]
+'tests/*.py' = [
+  'F401',  # Ignore unused imports
+  'F841',  # Local variable assigned but never used
+]
+
+
+[tool.uv]
+dev-dependencies = [
+  'pytest >=7.4.3',
+  'ruff >=0.15.0',
+]
