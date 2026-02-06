@@ -7,8 +7,8 @@ from garbled_concept.models.binary_garbled_gate import BinaryGarbledGate
 from garbled_concept.models.binary_label import BinaryLabel
 from garbled_concept.models.binary_wire import BinaryWire
 from garbled_concept.models.ec_mac import ECMac
-from garbled_concept.models.ec_point import ECPoint
 from garbled_concept.models.gate_type import GateType
+from garbled_concept.models.point import Point
 
 __all__: tuple[str, ...] = (
   "ArgoWire",
@@ -17,6 +17,6 @@ __all__: tuple[str, ...] = (
   "BinaryLabel",
   "BinaryWire",
   "ECMac",
-  "ECPoint",
   "GateType",
+  "Point",
 )

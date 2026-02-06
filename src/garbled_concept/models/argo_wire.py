@@ -9,7 +9,7 @@ from pydantic import BaseModel
 
 ### Local modules ###
 from garbled_concept.models.ec_mac import ECMac
-from garbled_concept.models.ec_point import ECPoint
+from garbled_concept.models.point import Point
 from garbled_concept.parameters import Secp256k1
 
 
@@ -23,13 +23,13 @@ class ArgoWire(BaseModel):
 
   value: int
   mac: ECMac
-  h_point: ECPoint
+  h_point: Point
 
   def model_post_init(self, __context: Any) -> None:
     self.value = self.value % Secp256k1.N
 
   @classmethod
-  def create(cls, value: int, key: int, h_point: ECPoint) -> ArgoWire:
+  def create(cls, value: int, key: int, h_point: Point) -> ArgoWire:
     """Create a new wire with a value and fresh MAC"""
     mac = ECMac.create(key, value, h_point)
     return cls(value=value, mac=mac, h_point=h_point)

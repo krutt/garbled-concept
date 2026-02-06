@@ -14,11 +14,11 @@ from hashlib import sha256
 from secrets import randbelow
 
 ### Local modules ###
-from garbled_concept.models import ECMac, ECPoint
+from garbled_concept.models import ECMac, Point
 from garbled_concept.parameters import Secp256k1
 
 
-def generate_h_point() -> ECPoint:
+def generate_h_point() -> Point:
   """
   Generate a secondary generator H such that no one knows log_G(H).
   In practice, this is done via hash-to-curve.
@@ -39,7 +39,7 @@ def generate_h_point() -> ECPoint:
     y_squared = (pow(x, 3, Secp256k1.P) + 7) % Secp256k1.P
     y = pow(y_squared, (Secp256k1.P + 1) // 4, Secp256k1.P)
 
-  return ECPoint(x=x, y=y)
+  return Point(x=x, y=y)
 
 
 def demo_homomorphic_mac():

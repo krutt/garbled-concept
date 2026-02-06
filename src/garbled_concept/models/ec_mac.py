@@ -7,7 +7,7 @@ from __future__ import annotations
 from pydantic import BaseModel
 
 ### Local modules ###
-from garbled_concept.models.ec_point import ECPoint
+from garbled_concept.models.point import Point
 from garbled_concept.parameters import Secp256k1
 
 
@@ -30,7 +30,7 @@ def mod_inverse(a: int, m: int) -> int:
   return x % m
 
 
-def point_add(p1: ECPoint, p2: ECPoint) -> ECPoint:
+def point_add(p1: Point, p2: Point) -> Point:
   """Add two EC points"""
   if p1.is_infinity:
     return p2
@@ -38,7 +38,7 @@ def point_add(p1: ECPoint, p2: ECPoint) -> ECPoint:
     return p1
 
   if p1.x == p2.x and p1.y != p2.y:
-    return ECPoint.infinity()
+    return Point.infinity()
 
   if p1.x == p2.x:
     # Point doubling
@@ -50,16 +50,16 @@ def point_add(p1: ECPoint, p2: ECPoint) -> ECPoint:
   x3 = (lam * lam - p1.x - p2.x) % Secp256k1.P
   y3 = (lam * (p1.x - x3) - p1.y) % Secp256k1.P
 
-  return ECPoint(x=x3, y=y3)
+  return Point(x=x3, y=y3)
 
 
-def point_mul(k: int, p: ECPoint) -> ECPoint:
+def point_mul(k: int, p: Point) -> Point:
   """Scalar multiplication using double-and-add"""
   if k == 0:
-    return ECPoint.infinity()
+    return Point.infinity()
 
   k = k % Secp256k1.N
-  result = ECPoint.infinity()
+  result = Point.infinity()
   addend = p
 
   while k:
@@ -85,12 +85,12 @@ class ECMac(BaseModel):
   c * MAC(k, v) = MAC(c*k, c*v)
   """
 
-  tag: ECPoint
+  tag: Point
 
   @classmethod
-  def create(cls, key: int, value: int, h_point: ECPoint) -> ECMac:
+  def create(cls, key: int, value: int, h_point: Point) -> ECMac:
     """Create a MAC for a value"""
-    g_term = point_mul(key, ECPoint.generator())
+    g_term = point_mul(key, Point.generator())
     h_term = point_mul(value, h_point)
     tag = point_add(g_term, h_term)
     return cls(tag=tag)
