@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Elliptic Curve Homomorphic MAC - Argo Style
+Elliptic Curve Homomorphic MAC (Message Authentication Codes) - Argo Style
 
 Demonstrates the core cryptographic primitive behind Argo:
 A MAC scheme where the tag is an EC point, and operations on tags
@@ -14,7 +14,7 @@ from hashlib import sha256
 from secrets import randbelow
 
 ### Local modules ###
-from garbled_concept.models import ECMac, Point
+from garbled_concept.models import MAC, Point
 from garbled_concept.parameters import Secp256k1
 
 
@@ -61,15 +61,15 @@ def demo_homomorphic_mac():
   print(f"\nValues: v1 = {v1}, v2 = {v2}")
 
   # Create MACs
-  mac1 = ECMac.create(k1, v1, H)
-  mac2 = ECMac.create(k2, v2, H)
+  mac1 = MAC.create(k1, v1, H)
+  mac2 = MAC.create(k2, v2, H)
 
   print(f"\nMAC(k1, v1) = {mac1.tag}")
   print(f"MAC(k2, v2) = {mac2.tag}")
 
   # Homomorphic addition
   mac_sum = mac1.add(mac2)
-  expected_sum = ECMac.create((k1 + k2) % Secp256k1.N, (v1 + v2) % Secp256k1.N, H)
+  expected_sum = MAC.create((k1 + k2) % Secp256k1.N, (v1 + v2) % Secp256k1.N, H)
 
   print("\n--- Homomorphic Addition ---")
   print(f"MAC(k1, v1) + MAC(k2, v2) = {mac_sum.tag}")
@@ -79,7 +79,7 @@ def demo_homomorphic_mac():
   # Homomorphic scalar multiplication
   c = 5
   mac_scaled = mac1.scalar_mul(c)
-  expected_scaled = ECMac.create((c * k1) % Secp256k1.N, (c * v1) % Secp256k1.N, H)
+  expected_scaled = MAC.create((c * k1) % Secp256k1.N, (c * v1) % Secp256k1.N, H)
 
   print("\n--- Homomorphic Scalar Multiplication ---")
   print(f"{c} * MAC(k1, v1)    = {mac_scaled.tag}")

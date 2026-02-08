@@ -17,8 +17,8 @@ from garbled_concept.models import (
   BinaryWire,
   BenchmarkResult,
   BinaryGarbledGate,
-  ECMac,
   GateType,
+  MAC,
 )
 from garbled_concept.parameters import Secp256k1
 
@@ -106,7 +106,7 @@ def benchmark_ec_mac_operations(n_ops: int = 100) -> list[BenchmarkResult]:
   values = [randbelow(Secp256k1.N) for _ in range(n_ops)]
 
   start = perf_counter()
-  macs = [ECMac.create(k, v, H) for k, v in zip(keys, values)]
+  macs = [MAC.create(k, v, H) for k, v in zip(keys, values)]
   t = (perf_counter() - start) * 1000
   results.append(
     BenchmarkResult(name="MAC Creation", operations=n_ops, total_time_ms=t, per_op_ms=t / n_ops)

@@ -15,7 +15,7 @@ from time import perf_counter
 ### Local modules ###
 from garbled_concept.ec_mac import generate_h_point, demo_homomorphic_mac
 from garbled_concept.garbled_circuit import compare_circuits, demo_binary_garbled_gate
-from garbled_concept.models import ArgoWire, ECMac
+from garbled_concept.models import ArgoWire, MAC
 from garbled_concept.parameters import Secp256k1
 
 
@@ -161,7 +161,7 @@ def benchmark_operations():
   values = [randbelow(Secp256k1.N) for _ in range(n_ops)]
 
   start = perf_counter()
-  macs = [ECMac.create(k, v, H) for k, v in zip(keys, values)]
+  macs = [MAC.create(k, v, H) for k, v in zip(keys, values)]
   create_time = perf_counter() - start
 
   print(f"\nMAC creation: {create_time / n_ops * 1000:.2f} ms per MAC")

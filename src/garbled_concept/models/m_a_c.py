@@ -71,9 +71,9 @@ def point_mul(k: int, p: Point) -> Point:
   return result
 
 
-class ECMac(BaseModel):
+class MAC(BaseModel):
   """
-  Elliptic Curve Homomorphic MAC
+  Elliptic Curve Homomorphic Message Authentication Code (MAC)
 
   The MAC of a value v with key k is: MAC(k, v) = k * G + v * H
   where G is the generator and H is a secondary generator.
@@ -88,22 +88,22 @@ class ECMac(BaseModel):
   tag: Point
 
   @classmethod
-  def create(cls, key: int, value: int, h_point: Point) -> ECMac:
+  def create(cls, key: int, value: int, h_point: Point) -> MAC:
     """Create a MAC for a value"""
     g_term = point_mul(key, Point.generator())
     h_term = point_mul(value, h_point)
     tag = point_add(g_term, h_term)
     return cls(tag=tag)
 
-  def add(self, other: "ECMac") -> "ECMac":
+  def add(self, other: MAC) -> MAC:
     """Homomorphic addition"""
     new_tag = point_add(self.tag, other.tag)
-    return ECMac(tag=new_tag)
+    return MAC(tag=new_tag)
 
-  def scalar_mul(self, scalar: int) -> "ECMac":
+  def scalar_mul(self, scalar: int) -> MAC:
     """Homomorphic scalar multiplication"""
     new_tag = point_mul(scalar, self.tag)
-    return ECMac(tag=new_tag)
+    return MAC(tag=new_tag)
 
 
-__all__: tuple[str, ...] = ("ECMac",)
+__all__: tuple[str, ...] = ("MAC",)
